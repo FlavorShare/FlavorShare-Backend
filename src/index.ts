@@ -2,6 +2,7 @@ import express from "express";
 import indexRoutes from "./routes/index";
 import recipeRoutes from "./routes/recipe";
 import connectDB from "./config/database";
+import { insertMockData } from "./utils/recipeMockData";
 
 const app = express();
 const port = 3000;

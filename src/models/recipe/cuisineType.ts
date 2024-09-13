@@ -11,4 +11,9 @@ export enum CuisineType {
   Mediterranean = "Mediterranean",
   Thai = "Thai",
   Spanish = "Spanish",
+  Dessert = "Dessert",
+  Breakfast = "Breakfast",
+  Lunch = "Lunch",
+  Diner = "Diner",
+  Fresh = "Fresh",
 }

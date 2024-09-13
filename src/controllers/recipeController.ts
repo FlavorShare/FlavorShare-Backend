@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import RecipeModel from "../models/recipe/recipe";
+import { CuisineType } from "../models/recipe/cuisineType";
 
 export class RecipeController {
   // Create a new recipe
   createRecipe = async (req: Request, res: Response) => {
+    console.log(req.body);
     try {
       const {
         title,
@@ -15,9 +17,8 @@ export class RecipeController {
         cookTime,
         servings,
         likes,
-        cuisineType,
+        type,
         nutritionalValues,
-        user,
       } = req.body;
       const newRecipe = new RecipeModel({
         title,
@@ -31,14 +32,15 @@ export class RecipeController {
         cookTime,
         servings,
         likes,
-        cuisineType,
+        type,
         nutritionalValues,
-        user,
       });
       const savedRecipe = await newRecipe.save();
+      console.log(savedRecipe);
       res.status(201).json(savedRecipe);
     } catch (error) {
       res.status(500).json({ message: "Error creating recipe", error });
+      console.log(error);
     }
   };
 
@@ -65,6 +67,36 @@ export class RecipeController {
       res.status(500).json({ message: "Error fetching recipe", error });
     }
   };
+
+  // Get all recipes by a specific user
+//   getRecipesByUser = async (req: Request, res: Response) => {
+//     try {
+//       const recipes = await RecipeModel.find({ ownerId: req.params.userId });
+//       res.status(200).json(recipes);
+//     } catch (error) {
+//       res.status(500).json({ message: "Error fetching recipes", error });
+//     }
+//   };
+
+  // Get all recipe types (cuisine types)
+  getAllCuisineTypes = async (req: Request, res: Response) => {
+    try {
+      const types = Object.values(CuisineType);
+      res.status(200).json(types);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching recipe types", error });
+    }
+  };
+
+  // Get all recipes by a specific type (cuisine type)
+//   getRecipesByType = async (req: Request, res: Response) => {
+//     try {
+//       const recipes = await RecipeModel.find({ type: req.params.type });
+//       res.status(200).json(recipes);
+//     } catch (error) {
+//       res.status(500).json({ message: "Error fetching recipes", error });
+//     }
+//   };
 
   // Update a recipe by ID
   updateRecipe = async (req: Request, res: Response) => {

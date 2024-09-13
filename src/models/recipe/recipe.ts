@@ -47,9 +47,10 @@ const recipeSchema = new Schema<Recipe>({
   likes: { type: Number, required: true },
   type: { type: String, enum: Object.values(CuisineType), required: true },
   nutritionalValue: { type: nutritionalValuesSchema },
-  user: { type: userSchema },
 });
 
 const RecipeModel = model<Recipe>("Recipe", recipeSchema);
 
 export default RecipeModel;
+
+
