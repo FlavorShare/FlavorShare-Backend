@@ -1,16 +1,17 @@
 export interface User {
-  id: string;
-  email: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  dateOfBirth: Date;
-  profileImageURL?: string;
-  bio?: string;
-  isFollowed?: boolean;
-  stats?: UserStats;
-  isCurrentUser?: boolean;
+  id: string; // User ID
+  email: string; // User Email
+  username: string; // Username
+  firstName: string; // First Name
+  lastName: string; // Last Name
+  phone: string; // Phone Number
+  dateOfBirth: Date; // Date of Birth
+  following: [string]; // List of accounts the user ID is following
+  followers: [string]; // List of accounts following the user ID
+  profileImageURL?: string; // Profile Image URL S3 storage
+  bio?: string; // User Bio
+  stats?: UserStats; // User Stats
+  isCurrentUser?: boolean; // Is the user the current user
 }
 
 export interface UserStats {
@@ -35,9 +36,10 @@ export const userSchema = new Schema<User>({
   lastName: { type: String, required: true },
   phone: { type: String, required: true },
   dateOfBirth: { type: Date, required: true },
+  following: { type: [String], required: true },
+  followers: { type: [String], required: true },
   profileImageURL: { type: String },
   bio: { type: String },
-  isFollowed: { type: Boolean, default: false },
   stats: { type: userStatsSchema },
   isCurrentUser: {
     type: Boolean,
