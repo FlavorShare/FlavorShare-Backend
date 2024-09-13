@@ -7,21 +7,33 @@ export class RecipeController {
     try {
       const {
         title,
-        cuisineType,
+        imageURL,
+        ownerId,
+        description,
         ingredients,
         instructions,
-        prepTime,
         cookTime,
         servings,
+        likes,
+        cuisineType,
+        nutritionalValues,
+        user,
       } = req.body;
       const newRecipe = new RecipeModel({
         title,
-        cuisineType,
+        imageURL,
+        ownerId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        description,
         ingredients,
         instructions,
-        prepTime,
         cookTime,
         servings,
+        likes,
+        cuisineType,
+        nutritionalValues,
+        user,
       });
       const savedRecipe = await newRecipe.save();
       res.status(201).json(savedRecipe);
@@ -59,7 +71,10 @@ export class RecipeController {
     try {
       const updatedRecipe = await RecipeModel.findByIdAndUpdate(
         req.params.id,
-        req.body,
+        {
+          ...req.body,
+          updatedAt: new Date(),
+        },
         { new: true }
       );
       if (!updatedRecipe) {

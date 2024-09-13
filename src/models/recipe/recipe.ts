@@ -8,6 +8,7 @@ import {
   NutritionalValues,
   nutritionalValuesSchema,
 } from "./nutritionalValues";
+import { User, userSchema } from "../user";
 
 export interface Recipe {
   title: string; // Recipe Title
@@ -26,6 +27,7 @@ export interface Recipe {
   likes: number; // Number of likes
   type: CuisineType; // Cuisine Type
   nutritionalValue?: NutritionalValues; // Nutritional Values
+  user?: User; // User object found based on User ID
 }
 
 const recipeSchema = new Schema<Recipe>({
@@ -45,6 +47,7 @@ const recipeSchema = new Schema<Recipe>({
   likes: { type: Number, required: true },
   type: { type: String, enum: Object.values(CuisineType), required: true },
   nutritionalValue: { type: nutritionalValuesSchema },
+  user: { type: userSchema },
 });
 
 const RecipeModel = model<Recipe>("Recipe", recipeSchema);
