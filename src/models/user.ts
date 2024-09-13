@@ -1,5 +1,4 @@
 export interface User {
-  id: string; // User ID
   email: string; // User Email
   username: string; // Username
   firstName: string; // First Name
@@ -29,7 +28,6 @@ export const userStatsSchema = new Schema<UserStats>({
 });
 
 export const userSchema = new Schema<User>({
-  id: { type: String, required: true },
   email: { type: String, required: true },
   username: { type: String, required: true },
   firstName: { type: String, required: true },

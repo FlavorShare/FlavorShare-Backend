@@ -1,36 +1,50 @@
+// src/models/recipe.ts
+import { Schema, model } from "mongoose";
+
 import { CuisineType } from "./cuisineType";
-import { Ingredient } from "./ingredient";
+import { Ingredient, ingredientSchema } from "./ingredient";
+import { Instruction, instructionSchema } from "./instruction";
+import {
+  NutritionalValues,
+  nutritionalValuesSchema,
+} from "./nutritionalValues";
 
 export interface Recipe {
   title: string; // Recipe Title
-  createdBy: string; // User ID
-  cuisineType: CuisineType; // Cuisine Type
-  ingredients: Ingredient[]; // Ingredients list
-  instructions: string[]; // Instructions list
-  prepTime: number; // Cooking time in minutes
-  servings: number; // Number of servings
-  createdAt?: Date; // Date created
-  updatedAt?: Date; // Date updated
-  img?: string; // Image URL for S3 storage
-}
+  imageURL: string; // Image URL S3 Storage
+  ownerId: string; // User ID
 
-import { Schema, model } from "mongoose";
-import { ingredientSchema } from "./ingredient";
+  createdAt: Date; // Date created
+  updatedAt: Date; // Date updated
+
+  description: string; // Recipe Description
+  ingredients: Ingredient[]; // Ingredients list
+  instructions: Instruction[]; // Instructions list
+  cookTime: number; // Cooking time in minutes
+  servings: number; // Number of servings
+
+  likes: number; // Number of likes
+  type: CuisineType; // Cuisine Type
+  nutritionalValue?: NutritionalValues; // Nutritional Values
+}
 
 const recipeSchema = new Schema<Recipe>({
   title: { type: String, required: true },
-  createdBy: { type: String, required: true },
-  cuisineType: {
-    type: String,
-    enum: Object.values(CuisineType),
-    required: true,
-  },
-  ingredients: { type: [ingredientSchema], required: true },
-  instructions: { type: [String], required: true },
-  prepTime: { type: Number, required: true },
-  servings: { type: Number, required: true },
+  imageURL: { type: String, required: true },
+  ownerId: { type: String, required: true },
+
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+
+  description: { type: String, required: true },
+  ingredients: { type: [ingredientSchema], required: true },
+  instructions: { type: [instructionSchema], required: true },
+  cookTime: { type: Number, required: true },
+  servings: { type: Number, required: true },
+
+  likes: { type: Number, required: true },
+  type: { type: String, enum: Object.values(CuisineType), required: true },
+  nutritionalValue: { type: nutritionalValuesSchema },
 });
 
 const RecipeModel = model<Recipe>("Recipe", recipeSchema);
