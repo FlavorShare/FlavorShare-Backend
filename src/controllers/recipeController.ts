@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import RecipeModel from "../models/recipe";
+import RecipeModel from "../models/recipe/recipe";
 
 export class RecipeController {
   // Create a new recipe
