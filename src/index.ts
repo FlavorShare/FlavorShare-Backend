@@ -1,8 +1,9 @@
 import express from "express";
-import indexRoutes from "./routes/index";
-import recipeRoutes from "./routes/recipe";
+import indexRoutes from "./routes/indexRoutes";
+import recipeRoutes from "./routes/recipeRoutes";
 import connectDB from "./config/database";
 import { insertMockData } from "./utils/recipeMockData";
+import userRoutes from "./routes/userRoutes";
 
 const app = express();
 const port = 3000;
@@ -13,6 +14,7 @@ connectDB();
 app.use(express.json());
 app.use("/", indexRoutes);
 app.use("/", recipeRoutes);
+app.use("/", userRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

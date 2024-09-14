@@ -21,3 +21,6 @@ build/
 # IDE files
 .vscode/
 .DS_Store
+
+# Firebase service account key
+serviceAccountKey.json

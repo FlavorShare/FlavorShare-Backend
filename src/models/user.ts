@@ -1,4 +1,5 @@
 export interface User {
+  _id: string; // User ID
   email: string; // User Email
   username: string; // Username
   firstName: string; // First Name
@@ -28,24 +29,25 @@ export const userStatsSchema = new Schema<UserStats>({
 });
 
 export const userSchema = new Schema<User>({
-  email: { type: String, required: true },
-  username: { type: String, required: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  phone: { type: String, required: true },
-  dateOfBirth: { type: Date, required: true },
-  following: { type: [String], required: true },
-  followers: { type: [String], required: true },
-  profileImageURL: { type: String },
-  bio: { type: String },
-  stats: { type: userStatsSchema },
-  isCurrentUser: {
-    type: Boolean,
-    default: function () {
-      // This function should be replaced with actual logic to determine if the user is the current user
-      return false;
+    _id: { type: String, required: true, unique: true },
+    email: { type: String, required: true },
+    username: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    phone: { type: String, required: true },
+    dateOfBirth: { type: Date, required: true },
+    following: { type: [String], required: true },
+    followers: { type: [String], required: true },
+    profileImageURL: { type: String },
+    bio: { type: String },
+    stats: { type: userStatsSchema },
+    isCurrentUser: {
+        type: Boolean,
+        default: function () {
+            // This function should be replaced with actual logic to determine if the user is the current user
+            return false;
+        },
     },
-  },
 });
 
 export const UserModel = model<User>("User", userSchema);
