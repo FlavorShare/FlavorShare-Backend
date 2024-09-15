@@ -10,6 +10,7 @@ const port = 3000;
 // Connect to MongoDB
 connectDB();
 
+// Route Middleware
 app.use(express.json());
 app.use("/", indexRoutes);
 app.use("/", recipeRoutes);

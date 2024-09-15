@@ -8,7 +8,7 @@ import {
   NutritionalValues,
   nutritionalValuesSchema,
 } from "./nutritionalValues";
-import { User, userSchema } from "../user";
+import { User } from "../user";
 
 export interface Recipe {
   // _id: string; // Recipe ID
