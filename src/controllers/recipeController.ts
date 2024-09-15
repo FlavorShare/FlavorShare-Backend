@@ -8,6 +8,7 @@ export class RecipeController {
     console.log(req.body);
     try {
       const {
+        // id,
         title,
         imageURL,
         ownerId,
@@ -21,6 +22,7 @@ export class RecipeController {
         nutritionalValues,
       } = req.body;
       const newRecipe = new RecipeModel({
+        // _id: id,
         title,
         imageURL,
         ownerId,

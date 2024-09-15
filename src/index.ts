@@ -2,7 +2,6 @@ import express from "express";
 import indexRoutes from "./routes/indexRoutes";
 import recipeRoutes from "./routes/recipeRoutes";
 import connectDB from "./config/database";
-import { insertMockData } from "./utils/recipeMockData";
 import userRoutes from "./routes/userRoutes";
 
 const app = express();

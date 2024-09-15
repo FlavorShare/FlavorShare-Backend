@@ -34,36 +34,17 @@ export class UserController {
     }
   }
 
-  async login(req: Request, res: Response) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { email, password } = req.body;
-
+  async getUserById(req: Request, res: Response) {
     try {
-      const userRecord = await auth().getUserByEmail(email);
-      const token = await auth().createCustomToken(userRecord.uid);
-
-      res.json({ token });
-    } catch (err) {
-      console.error((err as Error).message);
-      res.status(500).send("Server error");
-    }
-  }
-
-  async getProfile(req: Request & { user: { email: string } }, res: Response) {
-    try {
-      const user = await UserModel.findOne({ email: req.user.email }).select(
-        "-password"
-      );
-
-      res.json(user);
-    } catch (err) {
-      console.error((err as Error).message);
-
-      res.status(500).send("Server error");
+      const user = await UserModel.findById(req.params.id);
+      console.log(user);
+      if (!user) {
+        res.status(404).json({ message: "User not found" });
+      } else {
+        res.status(200).json(user);
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching user data", error });
     }
   }
 }

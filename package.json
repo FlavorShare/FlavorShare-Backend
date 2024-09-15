@@ -14,8 +14,6 @@
     "@types/mongoose": "^5.11.96",
     "express": "^4.21.0",
     "express-validator": "^7.2.0",
-    "firebase": "^10.13.1",
-    "firebase-admin": "^12.5.0",
     "mongoose": "^8.6.2"
   },
   "devDependencies": {

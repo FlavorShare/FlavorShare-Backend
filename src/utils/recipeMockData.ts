@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import RecipeModel from "../models/recipe/recipe";
 
 const mockRecipes = [

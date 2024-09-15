@@ -11,6 +11,8 @@ import {
 import { User, userSchema } from "../user";
 
 export interface Recipe {
+  // _id: string; // Recipe ID
+
   title: string; // Recipe Title
   imageURL: string; // Image URL S3 Storage
   ownerId: string; // User ID
@@ -31,6 +33,8 @@ export interface Recipe {
 }
 
 const recipeSchema = new Schema<Recipe>({
+  // _id: { type: String, required: true, unique: true },
+
   title: { type: String, required: true },
   imageURL: { type: String, required: true },
   ownerId: { type: String, required: true },
@@ -52,5 +56,3 @@ const recipeSchema = new Schema<Recipe>({
 const RecipeModel = model<Recipe>("Recipe", recipeSchema);
 
 export default RecipeModel;
-
-
