@@ -8,6 +8,8 @@ export interface User {
   dateOfBirth: Date; // Date of Birth
   following: [string]; // List of accounts the user ID is following
   followers: [string]; // List of accounts following the user ID
+  createdAt?: Date; // Date created
+  updatedAt?: Date; // Date updated
   profileImageURL?: string; // Profile Image URL S3 storage
   bio?: string; // User Bio
   stats?: UserStats; // User Stats
@@ -38,6 +40,8 @@ export const userSchema = new Schema<User>({
   dateOfBirth: { type: Date, required: true },
   following: { type: [String], required: true },
   followers: { type: [String], required: true },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
   profileImageURL: { type: String },
   bio: { type: String },
   stats: { type: userStatsSchema },
