@@ -26,7 +26,7 @@ export class UserController {
   /// -------------- POST REQUEST --------------
   /// ------------------------------------------
 
-  async register(req: Request, res: Response) {
+  async createNewUser(req: Request, res: Response) {
     const { id, email, username, firstName, lastName, phone, dateOfBirth } =
       req.body;
 
@@ -60,9 +60,40 @@ export class UserController {
   /// -------------- PUT REQUEST --------------
   /// -----------------------------------------
 
+  async updateUserById(req: Request, res: Response) {
+    try {
+      const updatedUser = await UserModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          ...req.body,
+          updatedAt: new Date(),
+        },
+        { new: true }
+      );
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating user", error });
+    }
+  }
+
   /// --------------------------------------------
   /// -------------- DELETE REQUEST --------------
   /// --------------------------------------------
+
+  async deleteUserById(req: Request, res: Response) {
+    try {
+      const deletedUser = await UserModel.findByIdAndDelete(req.params.id);
+      if (!deletedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.status(200).json({ message: "User deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting user", error });
+    }
+  }
 
   /// ---------------------------------------------
   /// -------------- OTHER FUNCTIONS --------------
