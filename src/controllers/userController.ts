@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import { validationResult } from "express-validator";
 import UserModel from "../models/user"; // Adjust the path as necessary
-import { auth } from "firebase-admin";
 
 export class UserController {
   /// -----------------------------------------
@@ -11,7 +9,6 @@ export class UserController {
   async getUserById(req: Request, res: Response) {
     try {
       const user = await UserModel.findById(req.params.id);
-      console.log(user);
       if (!user) {
         res.status(404).json({ message: "User not found" });
       } else {

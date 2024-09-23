@@ -5,10 +5,10 @@ const router = Router();
 const controller = new UserController();
 
 // GET
-router.get("/users/:id", controller.getUserById);
+router.get("/user/:id", controller.getUserById);
 
 // POST
-router.post("/register", controller.register);
+router.post("/user", controller.register);
 
 // PUT
 
