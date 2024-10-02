@@ -8,10 +8,12 @@ const controller = new UserController();
 router.get("/user/:id", controller.getUserById);
 
 // POST
-router.post("/user", controller.register);
+router.post("/user", controller.createNewUser);
 
 // PUT
+router.put("/user/:id", controller.updateUserById);
 
 // DELETE
+router.post("/user/:id", controller.deleteUserById);
 
 export default router;
