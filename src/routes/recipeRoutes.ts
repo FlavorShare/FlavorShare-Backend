@@ -8,6 +8,7 @@ const Controller = new RecipeController();
 router.get("/recipes", Controller.getAllRecipes);
 router.get("/recipes/:id", Controller.getRecipeById);
 router.get("/cuisinetypes", Controller.getAllCuisineTypes);
+router.get("/recipes/user/:id", Controller.getRecipesForUser);
 
 // POST
 router.post("/recipes", Controller.createRecipe);

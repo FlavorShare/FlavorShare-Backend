@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import RecipeModel from "../models/recipe/recipe";
 import { CuisineType } from "../models/recipe/cuisineType";
+import UserModel from "../models/user";
 
 export class RecipeController {
   /// -----------------------------------------
@@ -38,6 +39,26 @@ export class RecipeController {
     }
   };
 
+  getRecipesForUser = async (req: Request, res: Response) => {
+    try {
+      // Find the user by ID
+      const user = await UserModel.findById(req.params.id);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Extract recipe IDs from the user object
+      const recipeIds = user.recipes;
+
+      // Fetch the recipes using the extracted recipe IDs
+      const recipes = await RecipeModel.find({ _id: { $in: recipeIds } });
+
+      res.status(200).json(recipes);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching recipes", error });
+    }
+  };
+
   /// ------------------------------------------
   /// -------------- POST REQUEST --------------
   /// ------------------------------------------
@@ -46,7 +67,6 @@ export class RecipeController {
     console.log(req.body);
     try {
       const {
-        // id,
         title,
         imageURL,
         ownerId,
@@ -60,7 +80,6 @@ export class RecipeController {
         nutritionalValues,
       } = req.body;
       const newRecipe = new RecipeModel({
-        // _id: id,
         title,
         imageURL,
         ownerId,
@@ -76,6 +95,17 @@ export class RecipeController {
         nutritionalValues,
       });
       const savedRecipe = await newRecipe.save();
+
+      // Find the user by ownerId
+      const user = await UserModel.findById(ownerId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Update the user's recipeIds array
+      user.recipes.push(savedRecipe._id.toString());
+      await user.save();
+
       console.log(savedRecipe);
       res.status(201).json(savedRecipe);
     } catch (error) {
