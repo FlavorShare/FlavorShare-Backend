@@ -9,14 +9,16 @@ import { limiter } from "./middlewares/limiter";
 import { verifyApiKey } from "./middlewares/verifyApiKey";
 import { initializeApp } from "firebase/app";
 import admin from "firebase-admin";
-import serviceAccount from "./serviceAccountKey.json";
 
 // Load environment variables from .env file
 dotenv.config();
 
+// Parse the service account key from the environment variable
+const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY as string);
+
 // Initialize Firebase Admin SDK
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+  credential: admin.credential.cert(serviceAccountKey),
 });
 
 const firebaseConfig = {

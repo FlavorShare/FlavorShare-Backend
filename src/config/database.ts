@@ -1,13 +1,18 @@
 import mongoose, { ConnectOptions } from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Database URL for MongoDB
-let dbUri = "mongodb://localhost:27017/flavorshare";
+let username = process.env.MONGODB_USERNAME;
+let password = process.env.MONGODB_PASSWORD;
+let cluster = process.env.MONGODB_CLUSTER;
+let appName = process.env.MONGODB_APP_NAME;
 
 // Connect to the database
 const connectDB = async () => {
   try {
-    await mongoose.connect(dbUri, {
-    } as ConnectOptions);
+    await mongoose.connect(dbUri, {} as ConnectOptions);
     console.log("Connected to the database");
   } catch (error) {
     console.error("Failed to connect to the database:", error);
