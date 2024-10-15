@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 export interface NutritionalValues {
   calories: number; // Calories
@@ -13,3 +13,5 @@ export const nutritionalValuesSchema = new Schema<NutritionalValues>({
   fat: { type: Number, required: true },
   carbohydrates: { type: Number, required: true },
 });
+
+mongoose.model<NutritionalValues>("NutritionalValues", nutritionalValuesSchema);

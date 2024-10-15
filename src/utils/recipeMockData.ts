@@ -1,4 +1,4 @@
-import RecipeModel from "../models/recipe/recipe";
+import mongoose from "mongoose";
 
 const mockRecipes = [
   {
@@ -157,7 +157,7 @@ const mockRecipes = [
 
 export const insertMockData = async () => {
   try {
-    await RecipeModel.insertMany(mockRecipes);
+    await mongoose.model("Recipe").insertMany(mockRecipes);
     console.log("Mock data inserted successfully");
   } catch (error) {
     console.error("Error inserting mock data:", error);

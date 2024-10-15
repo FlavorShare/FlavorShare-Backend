@@ -1,5 +1,5 @@
 // src/models/recipe.ts
-import { Schema, model } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 import { CuisineType } from "./cuisineType";
 import { Ingredient, ingredientSchema } from "./ingredient";
@@ -53,6 +53,4 @@ const recipeSchema = new Schema<Recipe>({
   nutritionalValue: { type: nutritionalValuesSchema },
 });
 
-const RecipeModel = model<Recipe>("Recipe", recipeSchema);
-
-export default RecipeModel;
+mongoose.model<Recipe>("Recipe", recipeSchema);
