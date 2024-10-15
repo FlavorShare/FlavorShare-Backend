@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
-import RecipeModel from "../models/recipe/recipe";
 import { CuisineType } from "../models/recipe/cuisineType";
-import UserModel from "../models/user";
+import mongoose from "mongoose";
+import "../models/user";
+import "../models/recipe/recipe";
+
+const UserModel = mongoose.model("User");
+const RecipeModel = mongoose.model("Recipe");
 
 export class RecipeController {
   /// -----------------------------------------

@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import UserModel from "../models/user"; // Adjust the path as necessary
+import mongoose from "mongoose";
+
+const UserModel = mongoose.model("User");
 
 export class UserController {
   /// -----------------------------------------
@@ -8,13 +10,26 @@ export class UserController {
 
   async getUserById(req: Request, res: Response) {
     try {
-      const user = await UserModel.findById(req.params.id);
+      const userId = req.params.id;
+      let query;
+
+      // Check if the userId is a valid ObjectId
+      if (mongoose.Types.ObjectId.isValid(userId)) {
+        query = { _id: new mongoose.Types.ObjectId(userId) };
+      } else {
+        query = { _id: userId };
+      }
+
+      const user = await UserModel.findOne(query);
       if (!user) {
+        console.log("User not found");
         res.status(404).json({ message: "User not found" });
       } else {
+        console.log("User found");
         res.status(200).json(user);
       }
     } catch (error) {
+      console.error(error);
       res.status(500).json({ message: "Error fetching user data", error });
     }
   }
@@ -24,12 +39,14 @@ export class UserController {
   /// ------------------------------------------
 
   async createNewUser(req: Request, res: Response) {
-    const { id, email, username, firstName, lastName, phone, dateOfBirth } =
+    console.log("Creating new user");
+    console.log(req.body);
+    const { _id, email, username, firstName, lastName, phone, dateOfBirth } =
       req.body;
 
     try {
       const user = new UserModel({
-        _id: id,
+        _id: _id,
         email,
         username,
         firstName,
