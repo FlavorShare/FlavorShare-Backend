@@ -29,7 +29,10 @@ export interface Recipe {
   likes: number; // Number of likes
   type: CuisineType; // Cuisine Type
   nutritionalValue?: NutritionalValues; // Nutritional Values
+
   user?: User; // User object found based on User ID
+
+  peopleWhoLiked?: User[]; // List of users who liked the recipe
 }
 
 const recipeSchema = new Schema<Recipe>({
@@ -51,6 +54,10 @@ const recipeSchema = new Schema<Recipe>({
   likes: { type: Number, required: true },
   type: { type: String, enum: Object.values(CuisineType), required: true },
   nutritionalValue: { type: nutritionalValuesSchema },
+
+  user: { type: Schema.Types.ObjectId, ref: "User" },
+
+  peopleWhoLiked: [{ type: Schema.Types.ObjectId, ref: "User" }],
 });
 
 mongoose.model<Recipe>("Recipe", recipeSchema);
