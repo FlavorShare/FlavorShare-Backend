@@ -123,6 +123,8 @@ export class RecipeController {
   /// -----------------------------------------
 
   updateRecipe = async (req: Request, res: Response) => {
+    console.log("updateRecipe called");
+    console.log(req.body);
     try {
       const updatedRecipe = await RecipeModel.findByIdAndUpdate(
         req.params.id,
@@ -133,10 +135,13 @@ export class RecipeController {
         { new: true }
       );
       if (!updatedRecipe) {
+        console.log("Recipe not found");
         return res.status(404).json({ message: "Recipe not found" });
       }
+      console.log(updatedRecipe);
       res.status(200).json(updatedRecipe);
     } catch (error) {
+      console.log("Error updating recipe: ", error);
       res.status(500).json({ message: "Error updating recipe", error });
     }
   };
