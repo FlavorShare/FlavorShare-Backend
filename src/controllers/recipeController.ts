@@ -15,6 +15,7 @@ export class RecipeController {
   getAllRecipes = async (req: Request, res: Response) => {
     try {
       const recipes = await RecipeModel.find();
+      console.log(recipes);
       res.status(200).json(recipes);
     } catch (error) {
       res.status(500).json({ message: "Error fetching recipes", error });
