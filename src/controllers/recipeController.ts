@@ -154,6 +154,19 @@ export class RecipeController {
   deleteRecipe = async (req: Request, res: Response) => {
     try {
       const deletedRecipe = await RecipeModel.findByIdAndDelete(req.params.id);
+
+      // Find the user by ownerId
+      const user = await UserModel.findById(deletedRecipe.ownerId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Remove the recipe ID from the user's recipes array
+      user.recipes = user.recipes.filter(
+        (recipeId: string) => recipeId !== req.params.id
+      );
+      await user.save();
+
       if (!deletedRecipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }

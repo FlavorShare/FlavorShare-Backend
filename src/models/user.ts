@@ -16,6 +16,7 @@ export interface User {
   updatedAt?: Date; // Date updated
   profileImageURL?: string; // Profile Image URL S3 storage
   bio?: string; // User Bio
+  likedRecipes?: [Recipe]; // List of recipes the user has liked
 }
 
 export const userSchema = new Schema<User>({
@@ -51,6 +52,12 @@ export const userSchema = new Schema<User>({
   updatedAt: { type: Date, default: Date.now },
   profileImageURL: { type: String },
   bio: { type: String },
+  likedRecipes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Recipe",
+    },
+  ],
 });
 
 mongoose.model<User>("User", userSchema);
