@@ -162,9 +162,9 @@ export class RecipeController {
       }
 
       // Remove the recipe ID from the user's recipes array
-      user.recipes = user.recipes.filter(
-        (recipeId: string) => recipeId !== req.params.id
-      );
+      user.recipes = user.recipes.filter((recipeId: any) => {
+        return recipeId.toString() !== deletedRecipe._id.toString();
+      });
       await user.save();
 
       if (!deletedRecipe) {
