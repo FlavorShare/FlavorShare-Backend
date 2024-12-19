@@ -17,6 +17,7 @@ export interface User {
   profileImageURL?: string; // Profile Image URL S3 storage
   bio?: string; // User Bio
   likedRecipes?: [Recipe]; // List of recipes the user has liked
+  mealPlanList?: [Recipe];
 }
 
 export const userSchema = new Schema<User>({
@@ -53,6 +54,12 @@ export const userSchema = new Schema<User>({
   profileImageURL: { type: String },
   bio: { type: String },
   likedRecipes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Recipe",
+    },
+  ],
+  mealPlanList: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Recipe",

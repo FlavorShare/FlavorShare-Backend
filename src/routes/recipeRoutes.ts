@@ -9,6 +9,7 @@ router.get("/recipes", Controller.getAllRecipes);
 router.get("/recipes/:id", Controller.getRecipeById);
 router.get("/cuisinetypes", Controller.getAllCuisineTypes);
 router.get("/recipes/user/:id", Controller.getRecipesForUser);
+router.get("/recipes/ids", Controller.getRecipeByIds)
 
 // POST
 router.post("/recipes", Controller.createRecipe);

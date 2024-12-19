@@ -3,6 +3,7 @@ import { CuisineType } from "../models/recipe/cuisineType";
 import mongoose from "mongoose";
 import "../models/user";
 import "../models/recipe/recipe";
+import { Recipe } from "../models/recipe/recipe";
 
 const UserModel = mongoose.model("User");
 const RecipeModel = mongoose.model("Recipe");
@@ -57,6 +58,26 @@ export class RecipeController {
 
       // Fetch the recipes using the extracted recipe IDs
       const recipes = await RecipeModel.find({ _id: { $in: recipeIds } });
+
+      res.status(200).json(recipes);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching recipes", error });
+    }
+  };
+
+  getRecipeByIds = async (req: Request, res: Response) => {
+    // Get Recipe Id list
+    let recipeIds = req.body.ids;
+    let recipes: Recipe[] = [];
+
+    try {
+      // for each ids find the recipe and add it to the recipes list
+      for (const id of recipeIds) {
+        const recipe = await RecipeModel.findById(id);
+        if (recipe) {
+          recipes.push(recipe);
+        }
+      }
 
       res.status(200).json(recipes);
     } catch (error) {
