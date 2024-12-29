@@ -8,11 +8,9 @@ import {
   NutritionalValues,
   nutritionalValuesSchema,
 } from "./nutritionalValues";
-import { User } from "../user";
+import { Review, reviewSchema } from "./review";
 
 export interface Recipe {
-  // _id: string; // Recipe ID
-
   title: string; // Recipe Title
   imageURL: string; // Image URL S3 Storage
   ownerId: string; // User ID
@@ -33,6 +31,7 @@ export interface Recipe {
   // user?: User; // User object found based on User ID
 
   peopleWhoLiked?: String[]; // List of users who liked the recipe
+  reviews?: Review[]; // List of reviews
 }
 
 const recipeSchema = new Schema<Recipe>({
@@ -58,6 +57,7 @@ const recipeSchema = new Schema<Recipe>({
   // user: { type: Schema.Types.ObjectId, ref: "User" },
 
   peopleWhoLiked: [{ type: String }],
+  reviews: { type: [reviewSchema] },
 });
 
 mongoose.model<Recipe>("Recipe", recipeSchema);

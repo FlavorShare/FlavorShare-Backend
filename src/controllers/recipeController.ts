@@ -66,8 +66,10 @@ export class RecipeController {
   };
 
   getRecipeByIds = async (req: Request, res: Response) => {
+    console.log("GET RECIPE BY IDS");
     // Get Recipe Id list
-    let recipeIds = req.body.ids;
+    console.log(req.body);
+    let recipeIds = req.body;
     let recipes: Recipe[] = [];
 
     try {
@@ -79,8 +81,12 @@ export class RecipeController {
         }
       }
 
+      console.log(recipes);
+
       res.status(200).json(recipes);
     } catch (error) {
+      console.log(error);
+
       res.status(500).json({ message: "Error fetching recipes", error });
     }
   };
