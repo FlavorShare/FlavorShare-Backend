@@ -1,9 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
+
 import indexRoutes from "./routes/indexRoutes";
 import recipeRoutes from "./routes/recipeRoutes";
 import connectDB from "./config/database";
 import userRoutes from "./routes/userRoutes";
+import foodItemRoutes from "./routes/foodItemRoutes";
+
 import { verifyFirebaseToken } from "./middlewares/verifyFirebaseToken";
 import { limiter } from "./middlewares/limiter";
 import { verifyApiKey } from "./middlewares/verifyApiKey";
@@ -49,6 +52,7 @@ app.use(verifyFirebaseToken);
 app.use("/", indexRoutes);
 app.use("/", recipeRoutes);
 app.use("/", userRoutes);
+app.use("/", foodItemRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

@@ -4,9 +4,12 @@ import mongoose from "mongoose";
 import "../models/user";
 import "../models/recipe/recipe";
 import { Recipe } from "../models/recipe/recipe";
+import "../models/foodItem"; // Ensure this path is correct
+import { Ingredient } from "../models/recipe/ingredient";
 
 const UserModel = mongoose.model("User");
 const RecipeModel = mongoose.model("Recipe");
+const FoodItemModel = mongoose.model("FoodItem");
 
 export class RecipeController {
   /// -----------------------------------------
@@ -111,6 +114,9 @@ export class RecipeController {
         type,
         nutritionalValues,
       } = req.body;
+
+      this.addMissingFoodItems(ingredients);
+
       const newRecipe = new RecipeModel({
         title,
         imageURL,
@@ -153,6 +159,9 @@ export class RecipeController {
   updateRecipe = async (req: Request, res: Response) => {
     console.log("updateRecipe called");
     console.log(req.body);
+
+    this.addMissingFoodItems(req.body.ingredients);
+
     try {
       const updatedRecipe = await RecipeModel.findByIdAndUpdate(
         req.params.id,
@@ -206,6 +215,31 @@ export class RecipeController {
   /// ---------------------------------------------
   /// -------------- OTHER FUNCTIONS --------------
   /// ---------------------------------------------
+
+  addMissingFoodItems = async (ingredients: [Ingredient]) => {
+    // Look for the ingredient names in the FoodItem database
+    // if doesn't match an existing FoodItem, add the FoodItem
+    // saved under category: Custom
+    const ingredientNames = ingredients.map((ingredient: any) => {
+      return ingredient.name;
+    });
+    const foodItems = await FoodItemModel.find({
+      name: { $in: ingredientNames },
+    });
+    const existingFoodItemNames = foodItems.map((foodItem: any) => {
+      return foodItem.name;
+    });
+    const missingFoodItemNames = ingredientNames.filter((name: any) => {
+      return !existingFoodItemNames.includes(name);
+    });
+    for (const name of missingFoodItemNames) {
+      const newFoodItem = {
+        name,
+        category: "Custom",
+      };
+      await FoodItemModel.create(newFoodItem);
+    }
+  };
 
   /// ----------------------------------------------
   /// -------------- UNUSED FUNCTIONS --------------

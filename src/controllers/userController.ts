@@ -34,6 +34,34 @@ export class UserController {
     }
   }
 
+  async getMealPlanItems(req: Request, res: Response) {
+    try {
+      const userId = req.params.id;
+      let query;
+
+      // Check if the userId is a valid ObjectId
+      if (mongoose.Types.ObjectId.isValid(userId)) {
+        query = { _id: new mongoose.Types.ObjectId(userId) };
+      } else {
+        query = { _id: userId };
+      }
+
+      const user = await UserModel.findOne(query);
+      if (!user) {
+        console.log("User not found");
+        res.status(404).json({ message: "User not found" });
+      } else {
+        console.log("User found");
+        res.status(200).json(user.mealPlanItems);
+      }
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: "Error fetching meal plan items", error });
+    }
+  }
+
   /// ------------------------------------------
   /// -------------- POST REQUEST --------------
   /// ------------------------------------------
@@ -76,6 +104,9 @@ export class UserController {
 
   async updateUserById(req: Request, res: Response) {
     try {
+      console.log("Updating user");
+      console.log(req.body);
+
       const updatedUser = await UserModel.findByIdAndUpdate(
         req.params.id,
         {
@@ -89,6 +120,7 @@ export class UserController {
       }
       res.status(200).json(updatedUser);
     } catch (error) {
+      console.error("Error updating user:", error);
       res.status(500).json({ message: "Error updating user", error });
     }
   }

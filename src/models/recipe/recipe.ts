@@ -34,7 +34,7 @@ export interface Recipe {
   reviews?: Review[]; // List of reviews
 }
 
-const recipeSchema = new Schema<Recipe>({
+export const recipeSchema = new Schema<Recipe>({
   // _id: { type: String, required: true, unique: true },
 
   title: { type: String, required: true },

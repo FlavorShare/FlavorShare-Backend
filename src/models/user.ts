@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { Recipe } from "./recipe/recipe";
+import { Recipe, recipeSchema } from "./recipe/recipe";
 
 export interface User {
   _id: string; // User ID
@@ -17,8 +17,20 @@ export interface User {
   profileImageURL?: string; // Profile Image URL S3 storage
   bio?: string; // User Bio
   likedRecipes?: [Recipe]; // List of recipes the user has liked
-  mealPlanList?: [Recipe];
+  mealPlanList?: MealPlanItem[]; // List of meal plan items
 }
+
+export interface MealPlanItem {
+  _id: string; // Meal Plan Item ID
+  recipe: Recipe; // Recipe ID
+  servings: number; // Number of servings
+}
+
+const mealPlanItemSchema = new Schema({
+  _id: { type: String, required: true },
+  recipe: { type: recipeSchema, required: true },
+  servings: { type: Number, required: true },
+});
 
 export const userSchema = new Schema<User>({
   _id: { type: String, required: true },
@@ -59,12 +71,7 @@ export const userSchema = new Schema<User>({
       ref: "Recipe",
     },
   ],
-  mealPlanList: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Recipe",
-    },
-  ],
+  mealPlanList: { type: [mealPlanItemSchema] },
 });
 
 mongoose.model<User>("User", userSchema);
