@@ -9,8 +9,9 @@ let password = process.env.MONGODB_PASSWORD;
 let cluster = process.env.MONGODB_CLUSTER;
 let appName = process.env.MONGODB_APP_NAME;
 
-let dbUri = `mongodb+srv://${username}:${password}@${cluster}.wingl.mongodb.net/?retryWrites=true&w=majority&appName=${appName}`;
+// let dbUri = `mongodb+srv://${username}:${password}@${cluster}.wingl.mongodb.net/?retryWrites=true&w=majority&appName=${appName}`;
 // let dbUri = "mongodb://localhost:27017/fs-offline";
+let dbUri = process.env.MONGODB_URI ?? "";
 
 // Connect to the database
 const connectDB = async () => {
