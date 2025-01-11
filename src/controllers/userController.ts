@@ -34,6 +34,16 @@ export class UserController {
     }
   }
 
+  async getAllUsers(req: Request, res: Response) {
+    try {
+      const users = await UserModel.find();
+      res.status(200).json(users);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error fetching users", error });
+    }
+  }
+
   async getMealPlanItems(req: Request, res: Response) {
     try {
       const userId = req.params.id;

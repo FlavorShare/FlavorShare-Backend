@@ -6,6 +6,7 @@ const controller = new UserController();
 
 // GET
 router.get("/user/:id", controller.getUserById);
+router.get("/users", controller.getAllUsers);
 router.get("/user/:id/mealPlanItems", controller.getMealPlanItems);
 
 // POST
