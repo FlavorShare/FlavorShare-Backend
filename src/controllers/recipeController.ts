@@ -18,7 +18,8 @@ export class RecipeController {
 
   getAllRecipes = async (req: Request, res: Response) => {
     try {
-      const recipes = await RecipeModel.find();
+      // Fetch all recipes based on createdAt date newest to oldest
+      const recipes = await RecipeModel.find().sort({ createdAt: -1 });
       console.log(recipes);
       res.status(200).json(recipes);
     } catch (error) {
