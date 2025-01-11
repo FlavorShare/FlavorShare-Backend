@@ -52,7 +52,9 @@ export class RecipeController {
   getRecipesForUser = async (req: Request, res: Response) => {
     try {
       // Find the user by ID
-      const user = await UserModel.findById(req.params.id);
+      const user = await UserModel.findById(req.params.id).sort({
+        createdAt: -1,
+      });
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }

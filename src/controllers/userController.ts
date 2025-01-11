@@ -1,3 +1,4 @@
+import { Console } from "console";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 
@@ -140,11 +141,13 @@ export class UserController {
   /// --------------------------------------------
 
   async deleteUserById(req: Request, res: Response) {
+    console.log("Deleting user");
     try {
       const deletedUser = await UserModel.findByIdAndDelete(req.params.id);
       if (!deletedUser) {
         return res.status(404).json({ message: "User not found" });
       }
+      console.log(`User ${req.params.id} deleted successfully`);
       res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
       res.status(500).json({ message: "Error deleting user", error });
