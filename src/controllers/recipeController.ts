@@ -52,9 +52,7 @@ export class RecipeController {
   getRecipesForUser = async (req: Request, res: Response) => {
     try {
       // Find the user by ID
-      const user = await UserModel.findById(req.params.id).sort({
-        createdAt: -1,
-      });
+      const user = await UserModel.findById(req.params.id);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
@@ -63,7 +61,9 @@ export class RecipeController {
       const recipeIds = user.recipes;
 
       // Fetch the recipes using the extracted recipe IDs
-      const recipes = await RecipeModel.find({ _id: { $in: recipeIds } });
+      const recipes = await RecipeModel.find({ _id: { $in: recipeIds } }).sort({
+        createdAt: -1,
+      });
 
       res.status(200).json(recipes);
     } catch (error) {
